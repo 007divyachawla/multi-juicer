@@ -29,15 +29,15 @@ balancer:
     # SET THIS TO TRUE IF IN PRODUCTION
     # Sets secure Flag in cookie
     # -- Sets the secure attribute on cookie so that it only be send over https
-    secure: false
+    secure: true
     # -- Changes the cookies name used to identify teams. Note will automatically be prefixed with "__Secure-" when balancer.cookie.secure is set to `true`
     name: balancer
     # -- Set this to a fixed random alpha-numeric string (recommended length 24 chars). If not set this gets randomly generated with every helm upgrade, each rotation invalidates all active cookies / sessions requiring users to login again.
-    cookieParserSecret: null
+    cookieParserSecret: HAJBTE3WNZLXK9FOD7MQ2G6S
   repository: ghcr.io/juice-shop/multi-juicer/juice-balancer
   tag: null
   # -- Number of replicas of the juice-balancer deployment
-  replicas: 1
+  replicas: 2
   service:
     # -- Kubernetes service type
     type: ClusterIP
@@ -82,10 +82,10 @@ balancer:
     enabled: true
     dashboards:
       # -- if true, creates a Grafana Dashboard Config Map. (also requires metrics.enabled to be true). These will automatically be imported by Grafana when using the Grafana helm chart, see: https://github.com/helm/charts/tree/main/stable/grafana#sidecar-for-dashboards
-      enabled: false
+      enabled: true
     serviceMonitor:
       # -- If true, creates a Prometheus Operator ServiceMonitor (also requires metrics.enabled to be true). This will also deploy a servicemonitor which monitors metrics from the Juice Shop instances
-      enabled: false
+      enabled: true
       # -- Optional Allows to add additional labels to the service monitor. The Prometheus Operator can be adjusted to look for specific labels in ServiceMonitors.
       # -- If you use the kube-prometheus-stack helm chart, the default label looked for is `release=<kube-prometheus-release-name>
       labels: {}
@@ -96,10 +96,10 @@ balancer:
 
 juiceShop:
   # -- Specifies how many JuiceShop instances MultiJuicer should start at max. Set to -1 to remove the max Juice Shop instance cap
-  maxInstances: 10
+  maxInstances: -1
   # -- Juice Shop Image to use
   image: bkimminich/juice-shop
-  tag: v16.0.0
+  tag: v17.1.0
   # -- Change the key when hosting a CTF event. This key gets used to generate the challenge flags. See: https://pwning.owasp-juice.shop/companion-guide/latest/part4/ctf.html#_overriding_the_ctf_key
   ctfKey: "zLp@.-6fMW6L-7R3b!9uR_K!NfkkTr"
   # -- Specify a custom Juice Shop config.yaml. See the JuiceShop Config Docs for more detail: https://pwning.owasp-juice.shop/companion-guide/latest/part4/customization.html#_yaml_configuration_file
